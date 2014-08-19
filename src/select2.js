@@ -196,14 +196,16 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
         }
 
         // watch for options collection change and refresh the selected value:
-        var optionsCollectionName = repeatAttr.split(' in ');
-        if (optionsCollectionName.length > 1) {
-          optionsCollectionName = optionsCollectionName[1];
-          scope.$watch(optionsCollectionName, function () {
-            $timeout(function () {
-              elm.select2('val', controller.$viewValue);
-            });
-          }, true);
+        if (repeatAttr && repeatAttr.split) {
+          var optionsCollectionName = repeatAttr.split(' in ');
+          if (optionsCollectionName.length > 1) {
+            optionsCollectionName = optionsCollectionName[1];
+            scope.$watch(optionsCollectionName, function () {
+              $timeout(function () {
+                elm.select2('val', controller.$viewValue);
+              });
+            }, true);
+          }
         }
 
         // Initialize the plugin late so that the injected DOM does not disrupt the template compiler
